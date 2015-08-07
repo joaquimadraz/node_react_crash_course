@@ -3,6 +3,8 @@ var _ = require('lodash');
 
 var ClearFix = require('./clearfix');
 var TweetInput = require('./tweet_input');
+var TweetStore = require('../stores/tweet_store');
+var TweetActions = require('../actions/tweet_actions');
 
 // create react component
 var Home = React.createClass(
@@ -10,8 +12,21 @@ var Home = React.createClass(
     getInitialState: function () {
       return {
         tweet: '',
-        tweets: ['teste']
+        tweets: TweetStore.getTweets()
       }
+    },
+
+    componentDidMount: function() {
+      // first time the component is loaded
+      TweetStore.addChangeListener(this._onChange);
+    },
+
+    componentWillMount: function() {
+      TweetStore.addChangeListener(this._onChange);
+    },
+
+    _onChange: function() {
+      this.setState(this.getInitialState());
     },
 
     update: function(event) {
@@ -31,22 +46,10 @@ var Home = React.createClass(
         return (
           <div key={ index }>
             { tweet }
-            <button onClick={ this.removeTweet.bind(null, index) }>X</button>
+            <button onClick={ TweetActions.remove.bind(null, index) }>X</button>
           </div>
         )
       });
-    },
-
-    removeTweet: function(index) {
-      _.pullAt(this.state.tweets, index);
-
-      this.setState({ tweets: this.state.tweets });
-    },
-
-    submitTweet: function() {
-      this.state.tweets.push(this.state.tweet);
-
-      this.setState({ tweets: this.state.tweets });
     },
 
     render: function () {
@@ -56,12 +59,12 @@ var Home = React.createClass(
           { this.renderTweets() }
           <br />
           <ClearFix className="well">
-            <TweetInput update={ this.update } />
+            <TweetInput update={ this.update } tweet={ this.state.tweet } />
             <span>{ this.leftChars() }</span>
             <button
               className="btn btn-primary pull-right"
               disabled={ this.buttonDisabled() }
-              onClick={ this.submitTweet }>
+              onClick={ TweetActions.add.bind(null, this.state.tweet) }>
               Tweet
             </button>
           </ClearFix>
@@ -72,54 +75,3 @@ var Home = React.createClass(
 );
 
 module.exports = Home;
-
-// second app
-//
-// // create react component
-// var App = React.createClass(
-//   {
-//     getDefaultProps: function () {
-//       // se não enviar nada no render do component,
-//       // estes são os defaults
-//       return {
-//         title: 'yellou',
-//         what: 25
-//       }
-//     },
-
-//     propTypes: {
-//       title: React.PropTypes.string,
-//       what: React.PropTypes.number.isRequired
-//     },
-
-//     render: function () {
-//       return (
-//         // React.DOM.h1(null, 'hello wurld');
-//         <div title="mais que um elemento, precisa de ter sempre um div">
-//           <h1>{ this.props.title } { this.props.what }</h1>
-//           <h1>{ this.props.title } { this.props.what }</h1>
-//         </div>
-//       );
-//     }
-//   }
-// );
-
-// // body vai levar o conteudo do app
-// React.render(<App title="hello" what="world" />, document.body);
-
-
-// first app
-//
-// var React = require('react');
-
-// var hello = 'Yellow Wurld';
-
-// // create react component
-// var App = React.createClass({
-//   render: function() {
-//     return <h1>{ hello }</h1>;
-//   }
-// });
-
-// // body vai levar o conteudo do app
-// React.render(<App />, document.body);

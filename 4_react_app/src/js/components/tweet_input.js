@@ -7,7 +7,8 @@ var TweetInput = React.createClass(
         <div>
           <textarea
             className="form-control"
-            onChange={ this.props.update }>
+            onChange={ this.props.update }
+            value={ this.props.tweet }>
           </textarea>
           <br />
         </div>
