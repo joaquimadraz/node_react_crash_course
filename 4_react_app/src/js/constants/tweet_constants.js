@@ -1,6 +1,6 @@
 module.exports = {
 
-  ADD: 'ADD',
-  REMOVE: 'REMOVE'
+  ADD: 'ADD_TWEET',
+  REMOVE: 'REMOVE_TWEET'
 
 };
