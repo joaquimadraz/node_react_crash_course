@@ -32137,10 +32137,9 @@ module.exports = warning;
 module.exports = require('./lib/React');
 
 },{"./lib/React":30}],158:[function(require,module,exports){
-'use strict';
+"use strict";
 
 var React = require('react');
-var _ = require('lodash');
 
 var ClearFix = React.createClass({ displayName: "ClearFix",
   render: function render() {
@@ -32148,16 +32147,19 @@ var ClearFix = React.createClass({ displayName: "ClearFix",
   }
 });
 
-var TweetInput = React.createClass({ displayName: "TweetInput",
-  render: function render() {
-    return React.createElement("div", null, React.createElement("textarea", {
-      className: "form-control",
-      onChange: this.props.update }), React.createElement("br", null));
-  }
-});
+module.exports = ClearFix;
+
+},{"react":157}],159:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var _ = require('lodash');
+
+var ClearFix = require('./clearfix');
+var TweetInput = require('./tweet_input');
 
 // create react component
-var App = React.createClass({ displayName: "App",
+var Home = React.createClass({ displayName: "Home",
   getInitialState: function getInitialState() {
     return {
       tweet: '',
@@ -32205,8 +32207,7 @@ var App = React.createClass({ displayName: "App",
   }
 });
 
-// body vai levar o conteudo do app
-React.render(React.createElement(App, { title: "hello", what: "world" }), document.body);
+module.exports = Home;
 
 // second app
 //
@@ -32258,4 +32259,28 @@ React.render(React.createElement(App, { title: "hello", what: "world" }), docume
 // // body vai levar o conteudo do app
 // React.render(<App />, document.body);
 
-},{"lodash":2,"react":157}]},{},[158])
+},{"./clearfix":158,"./tweet_input":160,"lodash":2,"react":157}],160:[function(require,module,exports){
+"use strict";
+
+var React = require('react');
+
+var TweetInput = React.createClass({ displayName: "TweetInput",
+  render: function render() {
+    return React.createElement("div", null, React.createElement("textarea", {
+      className: "form-control",
+      onChange: this.props.update }), React.createElement("br", null));
+  }
+});
+
+module.exports = TweetInput;
+
+},{"react":157}],161:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var Home = require('./components/home');
+
+// body vai levar o conteudo do app
+React.render(React.createElement(Home, { title: "hello", what: "world" }), document.body);
+
+},{"./components/home":159,"react":157}]},{},[161])
